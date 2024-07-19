@@ -96,11 +96,19 @@ to the target based on the time-span between emitting the signal and receiving t
 Even transparent materials or thin foils represent no problem for an ultrasonic sensor. microsonic ultrasonic sensors are suitable for target distances from 20 mm to 10 m and as they measure the time of flight they can ascertain a measurement with pinpoint accuracy.
 If you need to measure the specific distance from your sensor, this can be calculated based on this formula: We know that, Distance= Speed* Time.
 The speed of sound waves is 343 m/s. So, Total Distance= (343 * Time of hight(Echo) pulse)/2 Total distance is divided by 2 because signal travels from HC-SR04 to object and returns to the module HC-SR-04. Use the following code to read the Distance;
->code:'from hcsr04 import HCSR04  
-from time import sleep
-sensor = HCSR04  (trigger_pin=3,echo_pin=2)  
+>code:'from machine import Pin
+import utime
+pir_sensor = Pin(28,Pin.IN)  
+led = Pin(15,Pin.OUT)  
+buzzer = Pin(16,Pin.OUT)  
 while True:  
-distance = sensor.  distance_cm()  
-print('Distance: ', distance, 'cm')  
-sleep(.25)
+    if pir_sensor.value()  ==1:  
+        print ("motion detected")   
+        for i in range(50):   
+            led.toggle()  
+            buzzer.toggle()  
+            utime.sleep(0.1)  
+    else:  
+        led.value(0)  
+        buzzer.value(0)
 
